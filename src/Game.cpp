@@ -50,7 +50,7 @@ void Game::gameLoop() {
         this->units.push_back(this->player);
 
         // Number of robots and complexity of their route can vary
-        // this->units.push_back(new Enemy(graphics, "../content/patrol.png", 14, 14, *this->player));
+        this->units.push_back(new Enemy(graphics, "../content/patrol.png", 14, 14, *this->player));
 
         SDL_Point *route[] = {new SDL_Point{20, 20},
                               new SDL_Point{10, 20},
