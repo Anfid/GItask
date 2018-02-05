@@ -51,7 +51,8 @@ void Enemy::draw(Graphics &graphics, Scroll &scroll) {
 }
 
 void Enemy::update(int elapsedTime, Level &level) {
-    if (this->coordinates->x == this->destination->x && this->coordinates->y == this->destination->y) {
+    if (!this->following &&
+            this->coordinates->x == this->destination->x && this->coordinates->y == this->destination->y) {
         if (this->currentRoutePoint < this->routePointCount - 1) {
             ++this->currentRoutePoint;
         } else {
