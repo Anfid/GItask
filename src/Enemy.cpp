@@ -22,7 +22,9 @@ Enemy::Enemy(Graphics &graphics, const std::string &filepath, int coordinateX, i
         Unit(graphics, filepath, coordinateX, coordinateY, frameTime, totalFrames)
 {
     this->route.push_back(player.followDirections());
+    this->currentRoutePoint = 0;
     following = true;
+    this->hitbox->r = 16;
 }
 
 Enemy::~Enemy() {

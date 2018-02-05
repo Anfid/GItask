@@ -1,6 +1,4 @@
 #include <SDL.h>
-#include <Enemy.h>
-#include <Cannon.h>
 #include <cmath>
 
 #include "Game.h"
@@ -10,6 +8,8 @@
 #include "Level.h"
 #include "Pointer.h"
 #include "Player.h"
+#include "Enemy.h"
+#include "Cannon.h"
 
 namespace {
     const int FPS = 50;
@@ -83,6 +83,8 @@ void Game::gameLoop() {
             }
             if (    (this->victory || this->defeat) &&
                     input.wasKeyPressed(SDL_SCANCODE_SPACE)) {
+                this->victory = false;
+                this->defeat = false;
                 break;
             }
 
