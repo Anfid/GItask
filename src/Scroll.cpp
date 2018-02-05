@@ -1,7 +1,7 @@
 #include <globals.h>
 #include <Input.h>
 #include <Graphics.h>
-#include "SDL2/SDL.h"
+#include "SDL.h"
 #include "Scroll.h"
 
 Scroll::Scroll() {

@@ -1,6 +1,7 @@
-#include <SDL2/SDL.h>
+#include <SDL.h>
 #include <Enemy.h>
 #include <Cannon.h>
+#include <cmath>
 
 #include "Game.h"
 #include "Input.h"

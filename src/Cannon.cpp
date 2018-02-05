@@ -1,6 +1,6 @@
 #include "Cannon.h"
 
-#include "SDL2/SDL.h"
+#include "SDL.h"
 #include "Graphics.h"
 #include "Scroll.h"
 

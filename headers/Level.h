@@ -1,7 +1,7 @@
 #ifndef LEVEL_H
 #define LEVEL_H
 
-#include "SDL2/SDL.h"
+#include "SDL.h"
 #include <string>
 #include <vector>
 
