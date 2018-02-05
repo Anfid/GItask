@@ -14,6 +14,7 @@ Enemy::Enemy(Graphics &graphics, const std::string &filepath, int coordinateX, i
         this->route.push_back(route[i]);
     }
     this->currentRoutePoint = 0;
+    this->following = false;
     this->hitbox->r = 16;
 }
 
