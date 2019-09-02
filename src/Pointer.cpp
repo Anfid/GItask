@@ -14,7 +14,9 @@ Pointer::Pointer(Graphics &graphics, const std::string &filepath)
     }
 }
 
-Pointer::~Pointer() {}
+Pointer::~Pointer() {
+    SDL_DestroyTexture(this->spriteSheet);
+}
 
 void Pointer::draw(Graphics &graphics) {
     this->sourceRect.x = this->free ? 704 : 704 + globals::TILE_WIDTH;

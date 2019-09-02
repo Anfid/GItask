@@ -28,6 +28,7 @@ Game::Game() {
 Game::~Game() {
     this->reset();
     delete this->pointer;
+    SDL_Quit();
 }
 
 void Game::gameLoop() {

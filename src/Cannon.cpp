@@ -24,6 +24,7 @@ Cannon::Cannon(Graphics& graphics, SDL_Point coordinates, int fireFrequency, int
 }
 
 Cannon::~Cannon() {
+    SDL_DestroyTexture(this->spriteSheet);
     for (auto fireball : this->fireballs) {
         delete fireball;
     }

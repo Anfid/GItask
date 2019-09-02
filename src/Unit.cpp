@@ -64,6 +64,7 @@ Unit::~Unit() {
     delete this->destination;
     delete this->movementDelta;
     delete this->hitbox;
+    SDL_DestroyTexture(this->spriteSheet);
 }
 
 void Unit::draw(Graphics &graphics, Scroll &scroll) {

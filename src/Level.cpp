@@ -17,7 +17,9 @@ Level::Level(Graphics &graphics)
     this->texture = SDL_CreateTextureFromSurface(graphics.getRenderer(), graphics.loadImage("../content/tiles.png"));
 }
 
-Level::~Level() {}
+Level::~Level() {
+    SDL_DestroyTexture(this->texture);
+}
 
 void Level::update(int elapsedTime) {}
 
