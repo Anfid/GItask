@@ -12,6 +12,9 @@ Graphics::Graphics() {
 Graphics::~Graphics() {
     SDL_DestroyRenderer(this->renderer);
     SDL_DestroyWindow(this->window);
+    for (auto surface : this->spriteSheets) {
+        SDL_FreeSurface(surface.second);
+    }
 }
 
 SDL_Surface* Graphics::loadImage(const std::string &filepath) {

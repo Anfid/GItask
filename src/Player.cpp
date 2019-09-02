@@ -1,15 +1,15 @@
 #include "Player.h"
 #include "Graphics.h"
 
-Player::Player(Graphics &graphics, const std::string &filepath, int coordinateX, int coordinateY,
+Player::Player(Graphics &graphics, const std::string &filepath, SDL_Point coordinates,
                int frameTime, int totalFrames) :
-        Unit::Unit(graphics, filepath, coordinateX, coordinateY, frameTime, totalFrames)
+        Unit::Unit(graphics, filepath, coordinates, frameTime, totalFrames)
 {
-    this->hitbox->r = 14;
+    this->hitbox.r = 14;
 }
 
 SDL_Point* Player::followDirections() {
-    return this->coordinates;
+    return &this->coordinates;
 }
 
 void Player::setDestination(SDL_Point dest) {

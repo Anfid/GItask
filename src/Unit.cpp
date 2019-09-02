@@ -31,6 +31,7 @@ namespace {
 
             this->fCost = this->gCost + this->hCost;
         }
+
         int x, y;
         int gCost;
         int hCost;
@@ -39,46 +40,38 @@ namespace {
     };
 }
 
-Unit::Unit(Graphics &graphics, const std::string &filepath, int coordinateX, int coordinateY,
+Unit::Unit(Graphics &graphics, const std::string &filepath, SDL_Point coordinates,
            int frameTime, int totalFrames)
-    : currentFrame(2)
+    : coordinates(coordinates)
+    , direction(RIGHT)
+    , next(coordinates)
+    , destination(coordinates)
+    , movementDelta {0, 0}
+    , hitbox {0, 0, 0}
+    , currentFrame(2)
     , totalFrames(totalFrames)
     , timeAfterNewFrame(0)
     , frameTime(frameTime)
 {
     this->spriteSheet = SDL_CreateTextureFromSurface(graphics.getRenderer(), graphics.loadImage(filepath));
-
-    this->coordinates = new SDL_Point {coordinateX, coordinateY};
-    this->direction = RIGHT;
-    this->next = new SDL_Point {coordinateX, coordinateY};
-    this->destination = new SDL_Point {coordinateX, coordinateY};
-
-    this->movementDelta = new SDL_Point {0, 0};
-
-    this->hitbox = new Circle {0, 0, 0};
 }
 
 Unit::~Unit() {
-    delete this->coordinates;
-    delete this->next;
-    delete this->destination;
-    delete this->movementDelta;
-    delete this->hitbox;
     SDL_DestroyTexture(this->spriteSheet);
 }
 
 void Unit::draw(Graphics &graphics, Scroll &scroll) {
     SDL_Rect sourceRect {this->currentFrame * globals::TILE_WIDTH, this->direction * globals::TILE_WIDTH,
                          globals::TILE_WIDTH, globals::TILE_WIDTH};
-    SDL_Rect destRect = globals::coordToIsoRect(this->coordinates->x, this->coordinates->y, scroll.getDelta());
+    SDL_Rect destRect = globals::coordToIsoRect(this->coordinates.x, this->coordinates.y, scroll.getDelta());
     destRect.y -= globals::TILE_HEIGHT;
     destRect.h += globals::TILE_HEIGHT;
 
-    destRect.x += this->movementDelta->x;
-    destRect.y += this->movementDelta->y;
+    destRect.x += this->movementDelta.x;
+    destRect.y += this->movementDelta.y;
 
-    this->hitbox->x = destRect.x + destRect.w / 2;
-    this->hitbox->y = destRect.y + destRect.h - this->hitbox->r;
+    this->hitbox.x = destRect.x + destRect.w / 2;
+    this->hitbox.y = destRect.y + destRect.h - this->hitbox.r;
 
     graphics.blitSurface(this->spriteSheet, &sourceRect, &destRect);
 }
@@ -87,20 +80,20 @@ void Unit::update(int elapsedTime, Level &level) {
     this->timeAfterNewFrame += elapsedTime;
     if (this->timeAfterNewFrame > this->frameTime) {
 
-        if (!level.squareIsFree(this->next->x, this->next->y)) {
-            this->next->x = this->coordinates->x;
-            this->next->y = this->coordinates->y;
+        if (!level.squareIsFree(this->next.x, this->next.y)) {
+            this->next.x = this->coordinates.x;
+            this->next.y = this->coordinates.y;
         }
         // Update animation frame
-        if (this->coordinates->x == this->next->x && this->coordinates->y == this->next->y &&
-                this->movementDelta->x == 0 && this->movementDelta->y == 0) {
-            if (this->coordinates->x != this->destination->x || this->coordinates->y != this->destination->y) {
+        if (this->coordinates.x == this->next.x && this->coordinates.y == this->next.y &&
+                this->movementDelta.x == 0 && this->movementDelta.y == 0) {
+            if (this->coordinates.x != this->destination.x || this->coordinates.y != this->destination.y) {
                 this->findPath(level);
             }
         } else {
             // Update position on the grid
-            if (this->coordinates->x == this->next->x && this->coordinates->y == this->next->y &&
-                    (this->movementDelta->x != 0 || this->movementDelta->y != 0)) {
+            if (this->coordinates.x == this->next.x && this->coordinates.y == this->next.y &&
+                    (this->movementDelta.x != 0 || this->movementDelta.y != 0)) {
                 this->walkBack(); // Make delta 0 to return to proper position on the grid
             } else {
                 this->walk(); // Move towards another cell
@@ -111,16 +104,16 @@ void Unit::update(int elapsedTime, Level &level) {
 }
 
 SDL_Point Unit::getPosition() {
-    return *this->coordinates;
+    return this->coordinates;
 }
 
 Circle Unit::getHitbox() {
-    return *this->hitbox;
+    return this->hitbox;
 }
 
 void Unit::setDestination(SDL_Point dest) {
-    this->destination->x = dest.x;
-    this->destination->y = dest.y;
+    this->destination.x = dest.x;
+    this->destination.y = dest.y;
 }
 
 void Unit::findPath(Level &level) {
@@ -128,7 +121,7 @@ void Unit::findPath(Level &level) {
     Cell* open[30][30] = {{nullptr}};
     Cell* closed[30][30] = {{nullptr}};
 
-    Cell* startingCell = new Cell(this->coordinates->x, this->coordinates->y, this->destination);
+    Cell* startingCell = new Cell(this->coordinates.x, this->coordinates.y, &this->destination);
     open[startingCell->x][startingCell->y] = startingCell;
 
     Cell* endingCell = nullptr;
@@ -158,8 +151,8 @@ void Unit::findPath(Level &level) {
                     }
                 }
             }
-            this->destination->x = endingCell->x;
-            this->destination->y = endingCell->y;
+            this->destination.x = endingCell->x;
+            this->destination.y = endingCell->y;
             break;
        }
 
@@ -174,7 +167,7 @@ void Unit::findPath(Level &level) {
                     continue;
                 }
 
-                Cell *tempCell = new Cell(x, y, this->destination, promisingCell);
+                Cell *tempCell = new Cell(x, y, &this->destination, promisingCell);
                 if (open[x][y]) {
                     if (open[x][y]->fCost > tempCell->fCost) {
                         delete open[x][y];
@@ -197,8 +190,8 @@ void Unit::findPath(Level &level) {
         endingCell = endingCell->parent;
         path.push_front(endingCell);
     }
-    this->next->x = endingCell->x;
-    this->next->y = endingCell->y;
+    this->next.x = endingCell->x;
+    this->next.y = endingCell->y;
 
     for (int x = 0; x < 30; ++x) {
         for (int y = 0; y < 30; ++y) {
@@ -215,8 +208,8 @@ void Unit::walk() {
         this->currentFrame = 0;
     }
 
-    int dX = this->next->x - this->coordinates->x;
-    int dY = this->next->y - this->coordinates->y;
+    int dX = this->next.x - this->coordinates.x;
+    int dY = this->next.y - this->coordinates.y;
     if (dX == 1 && dY == 1)
         this->direction = DOWN;
     else if (dX == 1 && dY == 0)
@@ -235,40 +228,40 @@ void Unit::walk() {
         this->direction = DOWNLEFT;
 
     if (this->direction == DOWN || this->direction == DOWNLEFT || this->direction == DOWNRIGHT) {
-        this->movementDelta->y += globals::TILE_HEIGHT / this->totalFrames;
+        this->movementDelta.y += globals::TILE_HEIGHT / this->totalFrames;
     } else if (this->direction == UP || this->direction == UPLEFT || this->direction == UPRIGHT) {
-        this->movementDelta->y -= globals::TILE_HEIGHT / this->totalFrames;
+        this->movementDelta.y -= globals::TILE_HEIGHT / this->totalFrames;
     }
     if (this->direction == RIGHT || this->direction == UPRIGHT || this->direction == DOWNRIGHT) {
-        this->movementDelta->x += globals::TILE_WIDTH / this->totalFrames;
+        this->movementDelta.x += globals::TILE_WIDTH / this->totalFrames;
     } else if (this->direction == LEFT || this->direction == UPLEFT || this->direction == DOWNLEFT) {
-        this->movementDelta->x -= globals::TILE_WIDTH / this->totalFrames;
+        this->movementDelta.x -= globals::TILE_WIDTH / this->totalFrames;
     }
 
 
-    if (    std::abs(this->movementDelta->x) == globals::TILE_WIDTH / 2 &&
-            std::abs(this->movementDelta->y) == globals::TILE_HEIGHT / 2) {
-        int mDXSign = this->movementDelta->x / std::abs(this->movementDelta->x);
-        int mDYSign = this->movementDelta->y / std::abs(this->movementDelta->y);
-        this->coordinates->x += (mDXSign + mDYSign) / 2;
-        this->coordinates->y += (mDYSign - mDXSign) / 2;
+    if (    std::abs(this->movementDelta.x) == globals::TILE_WIDTH / 2 &&
+            std::abs(this->movementDelta.y) == globals::TILE_HEIGHT / 2) {
+        int mDXSign = this->movementDelta.x / std::abs(this->movementDelta.x);
+        int mDYSign = this->movementDelta.y / std::abs(this->movementDelta.y);
+        this->coordinates.x += (mDXSign + mDYSign) / 2;
+        this->coordinates.y += (mDYSign - mDXSign) / 2;
 
-        this->movementDelta->x = 0;
-        this->movementDelta->y = 0;
+        this->movementDelta.x = 0;
+        this->movementDelta.y = 0;
     }
-    if (std::abs(this->movementDelta->x) >= globals::TILE_WIDTH) {
-        int mDXSign = this->movementDelta->x / std::abs(this->movementDelta->x);
-        this->coordinates->x += 1 * mDXSign;
-        this->coordinates->y -= 1 * mDXSign;
+    if (std::abs(this->movementDelta.x) >= globals::TILE_WIDTH) {
+        int mDXSign = this->movementDelta.x / std::abs(this->movementDelta.x);
+        this->coordinates.x += 1 * mDXSign;
+        this->coordinates.y -= 1 * mDXSign;
 
-        this->movementDelta->x = 0;
+        this->movementDelta.x = 0;
     }
-    if (std::abs(this->movementDelta->y) >= globals::TILE_HEIGHT) {
-        int mDYSign = this->movementDelta->y / std::abs(this->movementDelta->y);
-        this->coordinates->x += 1 * mDYSign;
-        this->coordinates->y += 1 * mDYSign;
+    if (std::abs(this->movementDelta.y) >= globals::TILE_HEIGHT) {
+        int mDYSign = this->movementDelta.y / std::abs(this->movementDelta.y);
+        this->coordinates.x += 1 * mDYSign;
+        this->coordinates.y += 1 * mDYSign;
 
-        this->movementDelta->y = 0;
+        this->movementDelta.y = 0;
     }
 }
 
@@ -279,16 +272,16 @@ void Unit::walkBack() {
         this->currentFrame = 15;
     }
 
-    this->next->x = this->coordinates->x;
-    this->next->y = this->coordinates->y;
+    this->next.x = this->coordinates.x;
+    this->next.y = this->coordinates.y;
     if (this->direction == DOWN || this->direction == DOWNLEFT || this->direction == DOWNRIGHT) {
-        this->movementDelta->y -= globals::TILE_HEIGHT / this->totalFrames;
+        this->movementDelta.y -= globals::TILE_HEIGHT / this->totalFrames;
     } else if (this->direction == UP || this->direction == UPLEFT || this->direction == UPRIGHT) {
-        this->movementDelta->y += globals::TILE_HEIGHT / this->totalFrames;
+        this->movementDelta.y += globals::TILE_HEIGHT / this->totalFrames;
     }
     if (this->direction == RIGHT || this->direction == UPRIGHT || this->direction == DOWNRIGHT) {
-        this->movementDelta->x -= globals::TILE_WIDTH / this->totalFrames;
+        this->movementDelta.x -= globals::TILE_WIDTH / this->totalFrames;
     } else if (this->direction == LEFT || this->direction == UPLEFT || this->direction == DOWNLEFT) {
-        this->movementDelta->x += globals::TILE_WIDTH / this->totalFrames;
+        this->movementDelta.x += globals::TILE_WIDTH / this->totalFrames;
     }
 }

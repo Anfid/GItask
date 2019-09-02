@@ -45,25 +45,25 @@ void Game::gameLoop() {
     while (true) {
         this->reset();
 
-        this->pointer = new Pointer(graphics, "../content/tiles.png");
         this->level = new Level(graphics);
 
-        this->player = new Player(graphics, "../content/scout.png", this->level->getSpawn().x, this->level->getSpawn().y);
+        this->player = new Player(graphics, "../content/scout.png", this->level->getSpawn());
         this->units.push_back(this->player);
 
         // Number of robots and complexity of their route can vary
-        this->units.push_back(new Enemy(graphics, "../content/patrol.png", 14, 14, *this->player));
+        this->units.push_back(new Enemy(graphics, "../content/patrol.png", {14, 14}, *this->player));
 
-        SDL_Point *route[] = {new SDL_Point{20, 20},
-                              new SDL_Point{10, 20},
-                              new SDL_Point{10, 10},
-                              new SDL_Point{20, 10}};
-        this->units.push_back(new Enemy(graphics, "../content/patrol.png", 20, 20, 4, route));
+        this->units.push_back(new Enemy(graphics, "../content/patrol.png", {20, 20}, {
+                    {20, 20},
+                    {10, 20},
+                    {10, 10},
+                    {20, 10}
+        }));
 
-        this->cannons.push_back(new Cannon(graphics, SDL_Point{0, 10}));
-        this->cannons.push_back(new Cannon(graphics, SDL_Point{0, 20}));
-        this->cannons.push_back(new Cannon(graphics, SDL_Point{10, 0}));
-        this->cannons.push_back(new Cannon(graphics, SDL_Point{20, 0}));
+        this->cannons.push_back(new Cannon(graphics, {0, 10}));
+        this->cannons.push_back(new Cannon(graphics, {0, 20}));
+        this->cannons.push_back(new Cannon(graphics, {10, 0}));
+        this->cannons.push_back(new Cannon(graphics, {20, 0}));
 
         int LAST_UPDATE_TIME = SDL_GetTicks();
 

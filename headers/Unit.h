@@ -5,7 +5,6 @@
 #include "globals.h"
 #include "Circle.h"
 
-struct SDL_Point;
 struct SDL_Texture;
 class Graphics;
 class Scroll;
@@ -17,7 +16,7 @@ class Unit {
 public:
     Unit() = delete;
     Unit(Unit&) = delete;
-    Unit(Graphics &graphics, const std::string &filepath, int coordinateX, int coordinateY,
+    Unit(Graphics &graphics, const std::string &filepath, SDL_Point coordinates,
          int frameTime = 100, int totalFrames = 16);
     virtual ~Unit();
 
@@ -30,14 +29,14 @@ public:
 protected:
     SDL_Texture* spriteSheet;
 
-    SDL_Point* coordinates;
+    SDL_Point coordinates;
     Direction direction;
-    SDL_Point* next;
-    SDL_Point* destination;
+    SDL_Point next;
+    SDL_Point destination;
 
-    SDL_Point* movementDelta;
+    SDL_Point movementDelta;
 
-    Circle* hitbox;
+    Circle hitbox;
 
     int currentFrame;
     int totalFrames;
