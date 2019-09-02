@@ -1,7 +1,7 @@
 #ifndef GLOBALS_H
 #define GLOBALS_H
 
-#include <SDL_rect.h>
+#include <SDL2/SDL_rect.h>
 
 namespace globals {
     const int WINDOW_WIDTH = 1024;

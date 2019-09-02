@@ -4,6 +4,9 @@ project(GItask)
 set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++11")
 set(CMAKE_EXE_LINKER_FLAGS "-static-libgcc -static-libstdc++")
 
+# For linters
+set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
+
 include_directories(headers)
 
 set(SOURCE_FILES
@@ -30,7 +33,6 @@ if(UNIX AND NOT APPLE)
     include(FindPkgConfig)
     pkg_search_module(SDL2 REQUIRED sdl2)
     pkg_search_module(SDL2IMAGE REQUIRED SDL2_image>=2.0.0)
-    include_directories(${SDL2_INCLUDE_DIRS} ${SDL2IMAGE_INCLUDE_DIRS})
 
     add_executable(GItask ${SOURCE_FILES})
 

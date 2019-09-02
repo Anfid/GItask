@@ -1,7 +1,8 @@
 #ifndef SCROLL_H
 #define SCROLL_H
 
-struct SDL_Point;
+#include <SDL2/SDL_rect.h>
+
 class Graphics;
 class Input;
 

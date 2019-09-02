@@ -2,7 +2,7 @@
 #define INPUT_H
 
 #include <map>
-#include <SDL.h>
+#include <SDL2/SDL.h>
 
 /* Input class
  * Keeps track of keyboard state

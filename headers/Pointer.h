@@ -1,7 +1,9 @@
 #ifndef POINTER_H
 #define POINTER_H
 
-struct SDL_Point;
+#include <SDL2/SDL_rect.h>
+#include <SDL2/SDL_render.h>
+
 class Graphics;
 class Level;
 
