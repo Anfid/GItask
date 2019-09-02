@@ -33,9 +33,9 @@ public:
     SDL_Point getSize();
 
 private:
-    SDL_Point* size;
-    SDL_Point* spawnPoint;
-    SDL_Point* finishPoint;
+    SDL_Point size;
+    SDL_Point spawnPoint;
+    SDL_Point finishPoint;
 
     static int map[30][30];
 

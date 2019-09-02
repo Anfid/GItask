@@ -6,7 +6,6 @@
 #include "globals.h"
 
 struct SDL_Texture;
-struct SDL_Point;
 class Graphics;
 class Scroll;
 struct Fireball;
@@ -14,7 +13,7 @@ struct Fireball;
 class Cannon {
 public:
     Cannon();
-    Cannon(Graphics &graphics, SDL_Point* coordinates, int fireFrequency = 3000, int fireballLifetime = 4000,
+    Cannon(Graphics &graphics, SDL_Point coordinates, int fireFrequency = 3000, int fireballLifetime = 4000,
            int fireballSpeed = 4);
     ~Cannon();
 
@@ -27,7 +26,7 @@ public:
 private:
     SDL_Texture* spriteSheet;
 
-    SDL_Point* coordinates;
+    SDL_Point coordinates;
     Direction direction;
 
     std::list<Fireball*> fireballs;

@@ -6,7 +6,7 @@
 
 Cannon::Cannon() {}
 
-Cannon::Cannon(Graphics& graphics, SDL_Point *coordinates, int fireFrequency, int fireballLifetime, int fireballSpeed) :
+Cannon::Cannon(Graphics& graphics, SDL_Point coordinates, int fireFrequency, int fireballLifetime, int fireballSpeed) :
         fireFrequency(fireFrequency),
         maxFireballLifetime(fireballLifetime),
         fireballSpeed(fireballSpeed)
@@ -14,9 +14,9 @@ Cannon::Cannon(Graphics& graphics, SDL_Point *coordinates, int fireFrequency, in
     this->timeAfterShot = 0;
     this->spriteSheet = SDL_CreateTextureFromSurface(graphics.getRenderer(), graphics.loadImage("../content/cannon.png"));
     this->coordinates = coordinates;
-    if (this->coordinates->x == 0)
+    if (this->coordinates.x == 0)
         this->direction = DOWNRIGHT;
-    else if (this->coordinates->y == 0)
+    else if (this->coordinates.y == 0)
         this->direction = DOWNLEFT;
 
     this->timeAfterUpdate = 0;
@@ -24,7 +24,6 @@ Cannon::Cannon(Graphics& graphics, SDL_Point *coordinates, int fireFrequency, in
 }
 
 Cannon::~Cannon() {
-    delete this->coordinates;
     for (auto fireball : this->fireballs) {
         delete fireball;
     }
@@ -35,7 +34,7 @@ void Cannon::update(int elapsedTime, Scroll &scroll) {
     this->timeAfterUpdate += elapsedTime;
     if (this->timeAfterUpdate > this->timeToUpdate) {
         if (this->timeAfterShot > this->fireFrequency) {
-            SDL_Rect rect = globals::coordToIsoRect(this->coordinates->x, this->coordinates->y, scroll.getDelta());
+            SDL_Rect rect = globals::coordToIsoRect(this->coordinates.x, this->coordinates.y, scroll.getDelta());
             rect.x += scroll.getDelta().x;
             rect.y += scroll.getDelta().y;
             if (this->direction == DOWNRIGHT) rect.x += 32;
@@ -64,7 +63,7 @@ void Cannon::update(int elapsedTime, Scroll &scroll) {
 
 void Cannon::draw(Graphics &graphics, Scroll &scroll) {
     SDL_Rect sourceRect = {0, 0, globals::TILE_WIDTH, 2 * globals::TILE_HEIGHT};
-    SDL_Rect destRect = globals::coordToIsoRect(this->coordinates->x, this->coordinates->y, scroll.getDelta());
+    SDL_Rect destRect = globals::coordToIsoRect(this->coordinates.x, this->coordinates.y, scroll.getDelta());
 
     destRect.h += globals::TILE_HEIGHT;
     destRect.y -= globals::TILE_HEIGHT;
@@ -82,7 +81,7 @@ void Cannon::draw(Graphics &graphics, Scroll &scroll) {
 }
 
 SDL_Point Cannon::getPosition() {
-    return *this->coordinates;
+    return this->coordinates;
 }
 
 std::list<Fireball*> Cannon::getFireballs() {

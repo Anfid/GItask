@@ -14,7 +14,7 @@ public:
     void update(Graphics &graphics, Input &input);
     SDL_Point getDelta() const;
 private:
-    SDL_Point* delta;
+    SDL_Point delta;
 };
 
 #endif // SCROLL_H

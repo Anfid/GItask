@@ -9,29 +9,22 @@ namespace {
     SDL_Rect openPortalSource = {128, 1065, globals::TILE_WIDTH * 2, globals::TILE_HEIGHT * 2};
 }
 
-Level::Level() {}
-
-Level::Level(Graphics &graphics) {
-    this->spawnPoint = new SDL_Point {1, 27};
-    this->finishPoint = new SDL_Point {27, 1};
-
-    this->size = new SDL_Point {30, 30};
-
+Level::Level(Graphics &graphics)
+    : size {30, 30}
+    , spawnPoint {1, 27}
+    , finishPoint {27, 1}
+{
     this->texture = SDL_CreateTextureFromSurface(graphics.getRenderer(), graphics.loadImage("../content/tiles.png"));
 }
 
-Level::~Level() {
-    delete this->spawnPoint;
-    delete this->finishPoint;
-    delete this->size;
-}
+Level::~Level() {}
 
 void Level::update(int elapsedTime) {}
 
 void Level::drawGround(Graphics &graphics, Scroll &scroll) {
     SDL_Rect destRect;
-    for (int x = 0; x < this->size->x; ++x) {
-        for (int y = 0; y < this->size->y; ++y) {
+    for (int x = 0; x < this->size.x; ++x) {
+        for (int y = 0; y < this->size.y; ++y) {
             destRect = globals::coordToIsoRect(x, y, scroll.getDelta());
             graphics.blitSurface(this->texture, &groundSource, &destRect);
         }
@@ -93,15 +86,15 @@ bool Level::squareIsFree(int x, int y) {
 }
 
 SDL_Point Level::getSpawn() {
-    return *this->spawnPoint;
+    return this->spawnPoint;
 }
 
 SDL_Point Level::getFinish() {
-    return *this->finishPoint;
+    return this->finishPoint;
 }
 
 SDL_Point Level::getSize() {
-    return *this->size;
+    return this->size;
 }
 
 int Level::map[30][30] = {

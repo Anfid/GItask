@@ -43,7 +43,7 @@ public:
 
     SDL_Renderer* getRenderer() const;
     SDL_Window* getWindow() const;
-    
+
 private:
     SDL_Window* window;
     SDL_Renderer* renderer;

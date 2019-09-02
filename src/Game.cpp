@@ -59,10 +59,10 @@ void Game::gameLoop() {
                               new SDL_Point{20, 10}};
         this->units.push_back(new Enemy(graphics, "../content/patrol.png", 20, 20, 4, route));
 
-        this->cannons.push_back(new Cannon(graphics, new SDL_Point{0, 10}));
-        this->cannons.push_back(new Cannon(graphics, new SDL_Point{0, 20}));
-        this->cannons.push_back(new Cannon(graphics, new SDL_Point{10, 0}));
-        this->cannons.push_back(new Cannon(graphics, new SDL_Point{20, 0}));
+        this->cannons.push_back(new Cannon(graphics, SDL_Point{0, 10}));
+        this->cannons.push_back(new Cannon(graphics, SDL_Point{0, 20}));
+        this->cannons.push_back(new Cannon(graphics, SDL_Point{10, 0}));
+        this->cannons.push_back(new Cannon(graphics, SDL_Point{20, 0}));
 
         int LAST_UPDATE_TIME = SDL_GetTicks();
 

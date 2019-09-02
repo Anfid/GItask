@@ -25,8 +25,8 @@ private:
     SDL_Rect sourceRect;
     SDL_Texture* spriteSheet;
 
-    SDL_Point* position;
-    SDL_Point* tilePos;
+    SDL_Point position;
+    SDL_Point tilePos;
 };
 
 #endif // POINTER_H
