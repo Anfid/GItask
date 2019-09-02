@@ -1,5 +1,7 @@
 #include <SDL2/SDL.h>
 #include <cmath>
+#include <thread>
+#include <chrono>
 
 #include "Game.h"
 #include "Input.h"
@@ -92,6 +94,7 @@ void Game::gameLoop() {
                 int ELAPSED_TIME_MS = CURRENT_TIME_MS - LAST_UPDATE_TIME;
                 this->update(graphics, input, scroll, std::min(ELAPSED_TIME_MS, MAX_FRAME_TIME));
                 LAST_UPDATE_TIME = CURRENT_TIME_MS;
+                std::this_thread::sleep_for(std::chrono::milliseconds(FRAME_TIME - ELAPSED_TIME_MS));
             }
         }
     }
