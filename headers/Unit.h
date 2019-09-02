@@ -15,7 +15,8 @@ struct Circle;
 
 class Unit {
 public:
-    Unit();
+    Unit() = delete;
+    Unit(Unit&) = delete;
     Unit(Graphics &graphics, const std::string &filepath, int coordinateX, int coordinateY,
          int frameTime = 100, int totalFrames = 16);
     virtual ~Unit();

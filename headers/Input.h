@@ -12,7 +12,7 @@ public:
     /* void beginNewFrame()
      * Called at the beginning of each frame to reset no longer relevant keys
      */
-    void beginNewFrame(SDL_Event event);
+    void beginNewFrame();
     void keyUpEvent(const SDL_Event &event);
     void keyDownEvent(const SDL_Event &event);
 

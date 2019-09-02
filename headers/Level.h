@@ -17,8 +17,9 @@ class Unit;
  */
 class Level {
 public:
-    Level();
-    Level(Graphics &graphics);
+    Level() = delete;
+    Level(Level&) = delete;
+    explicit Level(Graphics &graphics);
     ~Level();
 
     void update(int elapsedTime);

@@ -7,9 +7,10 @@ class Graphics;
 
 class Player : public Unit {
 public:
-    Player();
+    Player() = delete;
+    Player(Player&) = delete;
     Player(Graphics &graphics, const std::string &filepath, int coordinateX, int coordinateY,
-         int frameTime = 50, int totalFrames = 16);
+           int frameTime = 50, int totalFrames = 16);
 
     void setDestination(SDL_Point dest);
     SDL_Point* followDirections();

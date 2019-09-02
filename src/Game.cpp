@@ -33,8 +33,6 @@ Game::~Game() {
 void Game::gameLoop() {
     // ------------------------------ Setup ------------------------------
 
-    SDL_Event event;
-
     Graphics graphics;
     Scroll scroll;
     Input input;
@@ -69,7 +67,7 @@ void Game::gameLoop() {
 
         // ------------------------------ Game loop ------------------------------
         while (true) {
-            input.beginNewFrame(event);
+            input.beginNewFrame();
 
             if (input.wasKeyPressed(SDL_SCANCODE_ESCAPE)) {
                 return;

@@ -88,9 +88,9 @@ std::list<Fireball*> Cannon::getFireballs() {
     return this->fireballs;
 }
 
-Fireball::Fireball(int x, int y) {
-    this->x = x;
-    this->y = y;
-    this->lifetime = 0;
-    this->hitbox = Circle {0, 0, 12};
-}
+Fireball::Fireball(int x, int y)
+    : x(x)
+    , y(y)
+    , lifetime(0)
+    , hitbox(Circle {0, 0, 12})
+{}

@@ -2,12 +2,13 @@
 #include "Input.h"
 
 
-void Input::beginNewFrame(SDL_Event event) {
-    SDL_GetMouseState(&mousePos.x, &mousePos.y);
+void Input::beginNewFrame() {
+    SDL_GetMouseState(&this->mousePos.x, &this->mousePos.y);
     this->pressedKeys.clear();
     this->releasedKeys.clear();
     this->pressedButtons.clear();
 
+    SDL_Event event;
     if (SDL_PollEvent(&event)) {
         if (event.type == SDL_KEYDOWN) {
             if (event.key.repeat == 0) {

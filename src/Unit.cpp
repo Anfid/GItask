@@ -39,14 +39,12 @@ namespace {
     };
 }
 
-Unit::Unit() {}
-
 Unit::Unit(Graphics &graphics, const std::string &filepath, int coordinateX, int coordinateY,
-           int frameTime, int totalFrames) :
-        frameTime(frameTime),
-        totalFrames(totalFrames),
-        currentFrame(2),
-        timeAfterNewFrame(0)
+           int frameTime, int totalFrames)
+    : currentFrame(2)
+    , totalFrames(totalFrames)
+    , timeAfterNewFrame(0)
+    , frameTime(frameTime)
 {
     this->spriteSheet = SDL_CreateTextureFromSurface(graphics.getRenderer(), graphics.loadImage(filepath));
 
@@ -126,10 +124,10 @@ void Unit::setDestination(SDL_Point dest) {
 
 void Unit::findPath(Level &level) {
     std::forward_list<Cell*> path;
-    Cell* open[30][30] = {nullptr};
-    Cell* closed[30][30] = {nullptr};
+    Cell* open[30][30] = {{nullptr}};
+    Cell* closed[30][30] = {{nullptr}};
 
-    auto startingCell = new Cell(this->coordinates->x, this->coordinates->y, this->destination);
+    Cell* startingCell = new Cell(this->coordinates->x, this->coordinates->y, this->destination);
     open[startingCell->x][startingCell->y] = startingCell;
 
     Cell* endingCell = nullptr;
@@ -169,9 +167,9 @@ void Unit::findPath(Level &level) {
 
         for (int x = promisingCell->x - 1; x <= promisingCell->x + 1; ++x) {
             for (int y = promisingCell->y - 1; y <= promisingCell->y + 1; ++y) {
-                if (    (x == promisingCell->x && y == promisingCell->y) ||
-                        (closed[x][y]) ||
-                        (!level.squareIsFree(x, y))) {
+                if ((x == promisingCell->x && y == promisingCell->y) ||
+                    (closed[x][y]) ||
+                    (!level.squareIsFree(x, y))) {
                     continue;
                 }
 

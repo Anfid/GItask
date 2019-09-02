@@ -3,8 +3,6 @@
 #include "Scroll.h"
 #include "Player.h"
 
-Enemy::Enemy() = default;
-
 Enemy::Enemy(Graphics &graphics, const std::string &filepath, int coordinateX, int coordinateY,
         int routePointsCount, SDL_Point* route[], int frameTime, int totalFrames) :
         Unit(graphics, filepath, coordinateX, coordinateY, frameTime, totalFrames)

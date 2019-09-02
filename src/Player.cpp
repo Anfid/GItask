@@ -1,8 +1,6 @@
 #include "Player.h"
 #include "Graphics.h"
 
-Player::Player() {};
-
 Player::Player(Graphics &graphics, const std::string &filepath, int coordinateX, int coordinateY,
                int frameTime, int totalFrames) :
         Unit::Unit(graphics, filepath, coordinateX, coordinateY, frameTime, totalFrames)

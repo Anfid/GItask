@@ -9,7 +9,8 @@ class Level;
 
 class Pointer {
 public:
-    Pointer();
+    Pointer() = delete;
+    Pointer(Pointer&) = delete;
     Pointer(Graphics &graphics, const std::string &filepath);
     ~Pointer();
 

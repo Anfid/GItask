@@ -8,7 +8,8 @@ class Player;
 
 class Enemy : public Unit {
 public:
-    Enemy();
+    Enemy() = delete;
+    Enemy(Enemy&) = delete;
     Enemy(Graphics &graphics, const std::string &filepath, int coordinateX, int coordinateY,
          int routePointsCount, SDL_Point* route[], int frameTime = 100, int totalFrames = 16);
     Enemy(Graphics &graphics, const std::string &filepath, int coordinateX, int coordinateY,
