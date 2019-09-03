@@ -1,14 +1,13 @@
-#include "Unit.h"
-
-#include "SDL2/SDL.h"
+#include <SDL2/SDL.h>
 #include <forward_list>
 #include <list>
 #include <vector>
 #include <limits>
 
-#include "Graphics.h"
-#include "Scroll.h"
-#include "Level.h"
+#include "Graphics.hpp"
+#include "Level.hpp"
+#include "Scroll.hpp"
+#include "Unit.hpp"
 
 namespace {
     struct Cell {

@@ -1,8 +1,8 @@
-#include "Cannon.h"
-
 #include "SDL2/SDL.h"
-#include "Graphics.h"
-#include "Scroll.h"
+
+#include "Cannon.hpp"
+#include "Graphics.hpp"
+#include "Scroll.hpp"
 
 Cannon::Cannon() {}
 

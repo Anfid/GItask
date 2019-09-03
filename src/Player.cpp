@@ -1,5 +1,5 @@
-#include "Player.h"
-#include "Graphics.h"
+#include "Graphics.hpp"
+#include "Player.hpp"
 
 Player::Player(Graphics &graphics, const std::string &filepath, SDL_Point coordinates,
                int frameTime, int totalFrames) :

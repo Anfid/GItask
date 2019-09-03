@@ -1,7 +1,7 @@
-#include <globals.h>
-#include <Level.h>
-#include "Pointer.h"
-#include "Graphics.h"
+#include "Graphics.hpp"
+#include "Level.hpp"
+#include "Pointer.hpp"
+#include "globals.hpp"
 
 Pointer::Pointer(Graphics &graphics, const std::string &filepath)
     : free(false)

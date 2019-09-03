@@ -2,8 +2,9 @@
 #define CANNON_H
 
 #include <list>
-#include "Circle.h"
-#include "globals.h"
+
+#include "Circle.hpp"
+#include "globals.hpp"
 
 struct SDL_Texture;
 class Graphics;

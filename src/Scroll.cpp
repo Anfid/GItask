@@ -1,8 +1,9 @@
-#include <globals.h>
-#include <Input.h>
-#include <Graphics.h>
-#include "SDL2/SDL.h"
-#include "Scroll.h"
+#include <SDL2/SDL.h>
+
+#include "Graphics.hpp"
+#include "Input.hpp"
+#include "Scroll.hpp"
+#include "globals.hpp"
 
 Scroll::Scroll()
     : delta {-950, 0}

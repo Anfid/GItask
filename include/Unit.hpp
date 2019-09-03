@@ -2,8 +2,9 @@
 #define UNIT_H
 
 #include <string>
-#include "globals.h"
-#include "Circle.h"
+
+#include "Circle.hpp"
+#include "globals.hpp"
 
 struct SDL_Texture;
 class Graphics;

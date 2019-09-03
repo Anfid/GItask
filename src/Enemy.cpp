@@ -1,7 +1,7 @@
-#include "Enemy.h"
-#include "Graphics.h"
-#include "Scroll.h"
-#include "Player.h"
+#include "Enemy.hpp"
+#include "Graphics.hpp"
+#include "Player.hpp"
+#include "Scroll.hpp"
 
 Enemy::Enemy(Graphics &graphics, const std::string &filepath, SDL_Point coordinates,
              std::vector<SDL_Point> &&route, int frameTime, int totalFrames)

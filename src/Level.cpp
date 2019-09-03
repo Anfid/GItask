@@ -1,7 +1,7 @@
-#include <Scroll.h>
-#include "Unit.h"
-#include "Level.h"
-#include "Graphics.h"
+#include "Graphics.hpp"
+#include "Level.hpp"
+#include "Scroll.hpp"
+#include "Unit.hpp"
 
 namespace {
     SDL_Rect groundSource = {0, 0, globals::TILE_WIDTH, globals::TILE_HEIGHT};

@@ -1,8 +1,8 @@
 #ifndef INPUT_H
 #define INPUT_H
 
-#include <map>
 #include <SDL2/SDL.h>
+#include <map>
 
 /* Input class
  * Keeps track of keyboard state

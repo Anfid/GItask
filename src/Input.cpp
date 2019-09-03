@@ -1,6 +1,6 @@
 #include <SDL2/SDL.h>
-#include "Input.h"
 
+#include "Input.hpp"
 
 void Input::beginNewFrame() {
     SDL_GetMouseState(&this->mousePos.x, &this->mousePos.y);

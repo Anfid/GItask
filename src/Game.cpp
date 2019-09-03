@@ -1,17 +1,17 @@
 #include <SDL2/SDL.h>
+#include <chrono>
 #include <cmath>
 #include <thread>
-#include <chrono>
 
-#include "Game.h"
-#include "Input.h"
-#include "Graphics.h"
-#include "Scroll.h"
-#include "Level.h"
-#include "Pointer.h"
-#include "Player.h"
-#include "Enemy.h"
-#include "Cannon.h"
+#include "Cannon.hpp"
+#include "Enemy.hpp"
+#include "Game.hpp"
+#include "Graphics.hpp"
+#include "Input.hpp"
+#include "Level.hpp"
+#include "Player.hpp"
+#include "Pointer.hpp"
+#include "Scroll.hpp"
 
 namespace {
     const int FPS = 50;

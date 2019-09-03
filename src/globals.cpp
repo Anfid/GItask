@@ -1,4 +1,4 @@
-#include "globals.h"
+#include "globals.hpp"
 
 SDL_Rect globals::coordToIsoRect(int x, int y, SDL_Point scrollDelta) {
     SDL_Rect isoRect;

@@ -1,8 +1,8 @@
 #include <SDL2/SDL.h>
 #include <SDL2/SDL_image.h>
 
-#include "Graphics.h"
-#include "globals.h"
+#include "Graphics.hpp"
+#include "globals.hpp"
 
 Graphics::Graphics() {
     SDL_CreateWindowAndRenderer(globals::WINDOW_WIDTH, globals::WINDOW_HEIGHT, SDL_WINDOW_RESIZABLE, &this->window, &this->renderer);
