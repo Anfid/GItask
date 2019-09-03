@@ -19,12 +19,14 @@ namespace {
     const int MAX_FRAME_TIME = 5 * 1000 / FPS;
 }
 
-Game::Game() {
+Game::Game() 
+    : player(nullptr)
+    , pointer(nullptr)
+    , level(nullptr)
+    , defeat(false)
+    , victory(false)
+{
     SDL_Init(SDL_INIT_EVERYTHING);
-    this->player = nullptr;
-    this->pointer = nullptr;
-    this->level = nullptr;
-    this->gameLoop();
 }
 
 Game::~Game() {
@@ -82,8 +84,8 @@ void Game::gameLoop() {
             if (input.wasButtonPressed(SDL_BUTTON_RIGHT)) {
                 level->changeSquareState(globals::isoToCoord(pointer->getTilePos(), scroll.getDelta()), this->units);
             }
-            if (    (this->victory || this->defeat) &&
-                    input.wasKeyPressed(SDL_SCANCODE_SPACE)) {
+            if ((this->victory || this->defeat) &&
+                input.wasKeyPressed(SDL_SCANCODE_SPACE)) {
                 this->victory = false;
                 this->defeat = false;
                 break;

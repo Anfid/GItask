@@ -17,8 +17,9 @@ public:
     Game();
     ~Game();
 
-private:
     void gameLoop();
+
+private:
     void draw(Graphics &graphics, Scroll &scroll);
     void update(Graphics &graphics, Input &input, Scroll &scroll, int elapsedTime);
     void collide();
