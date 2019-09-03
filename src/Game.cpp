@@ -19,7 +19,7 @@ namespace {
     const int MAX_FRAME_TIME = 5 * 1000 / FPS;
 }
 
-Game::Game() 
+Game::Game()
     : player(nullptr)
     , pointer(nullptr)
     , level(nullptr)
