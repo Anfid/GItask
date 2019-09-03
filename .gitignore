@@ -2,5 +2,5 @@ SDL2*
 
 .idea/*
 cmake-build*
-
-build/*
+target/*
+bin/*

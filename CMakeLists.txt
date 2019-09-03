@@ -3,6 +3,7 @@ project(GItask)
 
 set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++11")
 set(CMAKE_EXE_LINKER_FLAGS "-static-libgcc -static-libstdc++")
+set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}/bin)
 
 # For linters
 set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
@@ -17,7 +18,7 @@ set(SOURCE_FILES
 )
 
 if(WIN32)
-    message("Building for Windows")
+    message(STATUS "Generating configuration for Windows")
     set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -mwindows")
 
     include_directories(SDL2/include SDL2_image/include)
@@ -29,7 +30,7 @@ if(WIN32)
 endif()
 
 if(UNIX AND NOT APPLE)
-    message("Building for Linux")
+    message(STATUS "Generating configuration for Linux")
     include(FindPkgConfig)
     pkg_search_module(SDL2 REQUIRED sdl2)
     pkg_search_module(SDL2IMAGE REQUIRED SDL2_image>=2.0.0)

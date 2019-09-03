@@ -1,0 +1,109 @@
+#!/bin/bash
+
+# colors
+c_R="\e[31m" # red
+c_G="\e[32m" # green
+c_Y="\e[33m" # yellow
+c_NO="\e[0m" # reset
+
+PROJECT_ROOT="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
+
+function show_help() {
+  echo -e "${c_Y}USAGE:${c_NO}
+  ./project <SUBCOMMAND> [FLAGS]
+
+${c_Y}SUBCOMMANDS:${c_NO}
+  ${c_G}help${c_NO}                Show this help message
+  ${c_G}build${c_NO}               Build project.
+  ${c_G}run${c_NO}                 Build project and run executable.
+
+${c_Y}FLAGS:${c_NO}
+  ${c_G}--release${c_NO}           Build with optimisations.
+  ${c_G}-q${c_NO}, ${c_G}--quiet${c_NO}         Do not show build output.
+"
+}
+
+function build() {
+  # create build directory if not present
+
+  if [[ $QUIET == 1 ]]
+  then
+    out=/dev/null
+    make_flags='-q'
+  else
+    out=/dev/stdout
+    make_flags=
+  fi
+
+  if [[ $RELEASE == 1 ]]
+  then
+    build=Release
+    target_dir="$PROJECT_ROOT/target/release"
+  else
+    build=Debug
+    target_dir="$PROJECT_ROOT/target/debug"
+  fi
+
+  if [[ ! -d "$target_dir" ]]
+  then
+    mkdir -p "$target_dir"
+  fi
+
+  cd "$target_dir" && \
+    cmake -DCMAKE_BUILD_TYPE=${build} "$PROJECT_ROOT/" >"$out" && \
+    make -j5 ${make_flags}
+}
+
+function run() {
+  build && "$PROJECT_ROOT/bin/GItask"
+}
+
+# Parse arguments
+# subcommand
+subcommand="$1"
+case $subcommand in
+  run)
+    ACTION="run"
+    ;;
+  build)
+    ACTION="build"
+    ;;
+  help|-h|--help)
+    show_help && exit
+    ;;
+  *)
+    echo -e "${c_R}error:${c_NO} no such subcommand: '$1'"
+    show_help && exit
+    ;;
+esac
+shift
+
+# flags
+# currently common for all subcommands
+while [[ $# -gt 0 ]]
+do
+  flag="$1"
+
+  case $flag in
+    --release)
+      RELEASE=1
+      ;;
+    -q|--quiet|--silent)
+      QUIET=1
+      ;;
+    *)
+      echo -e "${c_R}error:${c_NO} no such flag for '$subcommand' subcommand: '$1'"
+      ;;
+  esac
+
+  shift
+done
+
+case $ACTION in
+  "run")
+    run
+    ;;
+  "build")
+    build
+    ;;
+esac
