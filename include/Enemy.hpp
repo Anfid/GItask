@@ -15,10 +15,10 @@ public:
           std::vector<SDL_Point> &&route, int frameTime = 100, int totalFrames = 16);
     Enemy(Graphics &graphics, const std::string &filepath, SDL_Point coordinates,
           Player &player, int frameTime = 100, int totalFrames = 16);
-    ~Enemy();
+    ~Enemy() override;
 
-    void draw(Graphics &graphics, Scroll &scroll);
-    void update(int elapsedTime, Level &level);
+    void draw(Graphics &graphics, Scroll &scroll) override;
+    void update(int elapsedTime, Level &level) override;
 
 private:
     int currentRoutePoint;
